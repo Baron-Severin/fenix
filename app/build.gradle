@@ -26,7 +26,7 @@ android {
         versionCode 1
         versionName Config.generateDebugVersionName()
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "org.mozilla.fenix.FirefoxTestRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
         manifestPlaceholders.isRaptorEnabled = "false"
         resValue "bool", "IS_DEBUG", "false"
@@ -496,6 +496,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
+    androidTestImplementation Deps.androidx_junit
+    androidTestImplementation Deps.androidx_work_testing
     androidTestImplementation Deps.mockwebserver
     testImplementation Deps.mozilla_support_test
     testImplementation Deps.androidx_junit
