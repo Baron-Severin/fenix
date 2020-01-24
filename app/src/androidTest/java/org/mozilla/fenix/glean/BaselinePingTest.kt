@@ -25,18 +25,20 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.mozilla.fenix.HomeActivity
-import org.mozilla.fenix.getPingServer
-import org.mozilla.fenix.getPingServerPort
 import org.mozilla.fenix.helpers.HomeActivityTestRule
+import org.mozilla.fenix.helpers.MockWebServerHelper
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class BaselinePingTest {
+
+    private val server = MockWebServerHelper.createAlwaysOkMockWebServer()
+
     @get:Rule
     val activityRule: ActivityTestRule<HomeActivity> = HomeActivityTestRule()
 
     @get:Rule
-    val gleanRule = GleanTestLocalServer(ApplicationProvider.getApplicationContext(), getPingServerPort())
+    val gleanRule = GleanTestLocalServer(ApplicationProvider.getApplicationContext(), server.port)
 
     companion object {
         @BeforeClass
@@ -59,8 +61,6 @@ class BaselinePingTest {
         pingName: String,
         maxAttempts: Int = 3
     ): JSONObject? {
-        val server = getPingServer()
-
         var attempts = 0
         do {
             attempts += 1
